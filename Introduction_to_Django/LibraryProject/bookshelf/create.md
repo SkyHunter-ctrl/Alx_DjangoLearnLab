@@ -1,4 +1,4 @@
 # Create
->>> from bookshelf.models import Book
->>> book = Book.objects.create(title="The Lemamas Empire", author="Nancy Nayianoi Ledama", publication_year=2025)
->>> book = Book.objects.get(id=1)
+from bookshelf.models import Book
+book = Book.objects.create(title="1984", author="George Orwell", publication_year=1949)
+# <Book: Book object (1)>
