@@ -7,7 +7,7 @@ for book in books_by_author:
     print(book.title)
 
 # List all books in a library
-library = Library.objects.get(name="Central Library")
+library = Library.objects.get(name="library_name")
 for book in library.books.all():
     print(book.title)
 
