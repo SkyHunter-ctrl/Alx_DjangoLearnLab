@@ -8,8 +8,8 @@ from django.views.generic.detail import DetailView
 from .models import Library
 class BookDetailView(DetailView):
     model = Library
-    library = 'relationship_app/library_detail.html'
-    context_object_name = 'book'
+    template_name = 'relationship_app/library_detail.html'
+    context_object_name = 'library'
 # the hello_view function takes an HTTP request (request) as input and returns an HTTP response containing the string “Hello, World!”.
 from django.http import HttpResponse
 def hello_view(request):
