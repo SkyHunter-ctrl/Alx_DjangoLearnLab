@@ -1,10 +1,8 @@
 from django.shortcuts import render
-
-# Function-based View to list books
 from .models import Book
 def book_list(request):
     books = Book.objects.all()
-    return render(request, 'book_list.html', context={'books': books})
+    return render(request, 'relationship_app/list_books.html', context={'books': books})
 # Class-based View to show book details
 from django.views.generic import DetailView 
 class BookDetailView(DetailView):
