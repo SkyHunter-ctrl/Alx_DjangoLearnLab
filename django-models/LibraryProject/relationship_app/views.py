@@ -3,8 +3,8 @@ from .models import Book
 def book_list(request):
     books = Book.objects.all()
     return render(request, 'relationship_app/list_books.html', context={'books': books})
-# Class-based View to show book details
-from django.views.generic import DetailView 
+# Class-based View to show book details 
+from django.views.generic.detail import DetailView
 from .models import Library
 class BookDetailView(DetailView):
     model = Library
