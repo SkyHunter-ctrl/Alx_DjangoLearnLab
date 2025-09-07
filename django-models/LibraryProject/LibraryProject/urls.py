@@ -29,3 +29,11 @@ urlpatterns = [
     path('relationship/', include('relationship_app.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
 ]
+# Task 1: Django Views and URL Configuration
+#URL Configuration
+from django.urls import path, include
+
+urlpatterns = [
+    path('relationship/', include('relationship_app.urls')),
+]
+
