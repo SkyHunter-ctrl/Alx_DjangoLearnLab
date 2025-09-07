@@ -16,6 +16,7 @@ def hello_view(request):
     return HttpResponse("Hello, World!")
 
 # Authentication Views
+from django.contrib.auth import login, logout   
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
@@ -31,7 +32,7 @@ class RegisterView(CreateView):
     form_class = UserCreationForm
     template_name = 'relationship_app/register.html'
     success_url = reverse_lazy('login')
-    
+
 #
 
 
