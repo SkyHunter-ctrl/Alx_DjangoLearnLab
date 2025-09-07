@@ -101,17 +101,17 @@ from django.contrib.auth.decorators import user_passes_test
 #    def __str__(self):
 #        return f"{self.user.username} ({self.role})"
 # Role-Based Views
-#from django.shortcuts import render
-#from django.contrib.auth.decorators import user_passes_test
+from django.shortcuts import render
+from django.contrib.auth.decorators import user_passes_test
 
-#def is_admin(user):
-#    return hasattr(user, 'userprofile') and user.userprofile.role == 'Admin'
+def is_admin(user):
+    return hasattr(user, 'userprofile') and user.userprofile.role == 'Admin'
 
-#def is_librarian(user):
-#    return hasattr(user, 'userprofile') and user.userprofile.role == 'Librarian'
+def is_librarian(user):
+    return hasattr(user, 'userprofile') and user.userprofile.role == 'Librarian'
 
-#def is_member(user):
-#    return hasattr(user, 'userprofile') and user.userprofile.role == 'Member'
+def is_member(user):
+    return hasattr(user, 'userprofile') and user.userprofile.role == 'Member'
 
 @user_passes_test(is_admin)
 def admin_view(request):
