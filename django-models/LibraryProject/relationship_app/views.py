@@ -14,6 +14,24 @@ class LibraryDetailView(DetailView):
 from django.http import HttpResponse
 def hello_view(request):
     return HttpResponse("Hello, World!")
+
+# Authentication Views
+from django.contrib.auth.views import LoginView, LogoutView
+from django.views.generic.edit import CreateView
+from django.contrib.auth.forms import UserCreationForm
+from django.urls import reverse_lazy
+
+class CustomLoginView(LoginView):
+    template_name = 'relationship_app/login.html'
+
+class CustomLogoutView(LogoutView):
+    template_name = 'relationship_app/logout.html'
+
+class RegisterView(CreateView):
+    form_class = UserCreationForm
+    template_name = 'relationship_app/register.html'
+    success_url = reverse_lazy('login')
+    
 #
 
 
