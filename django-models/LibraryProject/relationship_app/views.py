@@ -32,6 +32,26 @@ class RegisterView(CreateView):
     form_class = UserCreationForm
     template_name = 'relationship_app/register.html'
     success_url = reverse_lazy('login')
+    #list_books view to display all books
+    from django.shortcuts import render
+from .models import Book
+
+def list_books(request):
+    books = Book.objects.select_related('author').all()
+    return render(request, 'relationship_app/list_books.html', {'books': books})
+# others 
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = UserCreationForm()
+    return render(request, 'relationship_app/register.html', {'form': form})
 
 #
 
