@@ -16,7 +16,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.urls import path, include
+from django.views.generic import TemplateView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/profile/',
+             TemplateView.as_view(template_name='accounts/profile.html'),
+             name='profile'),
+    path('relationship/', include('relationship_app.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
+# Task 1: Django Views and URL Configuration
+#URL Configuration
+from django.urls import path, include
+
+urlpatterns = [
+    path('relationship/', include('relationship_app.urls')),
+]
+
