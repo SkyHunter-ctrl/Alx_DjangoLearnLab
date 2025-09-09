@@ -2,10 +2,10 @@
 # implementing function-based view
 from django.shortcuts import render
 from .models import Book
-def book_list(request):
+def list_books(request):
     books = Book.objects.all() # fetch all book isntances
-    context = {"book_list": books} # creates context dictionanry with bok list
-    return render(request, 'relationship_app/book_list.html' context)
+    context = {"list_books": books} # creates context dictionanry with bok list
+    return render(request, 'relationship_app/list_books.html' context)
 
 # implementing Class-based view
 from django.views.generic.detail import DetailView
