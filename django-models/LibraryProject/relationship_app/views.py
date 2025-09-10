@@ -18,7 +18,8 @@ class LibraryDetailView(DetailView):
 
 # Task 2: Set Up Authentication Views
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 
 # Login View
