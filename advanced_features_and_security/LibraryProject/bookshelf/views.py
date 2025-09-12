@@ -48,3 +48,10 @@ def create_book(request):
         form.save()
     return render(request, 'bookshelf/form_example.html', {'form': form})
 
+from .forms import ExampleForm
+def example_form_view(request):
+    form = ExampleForm(request.POST or None)
+    if form.is_valid():
+        # Process the data securely
+        cleaned_data = form.cleaned_data
+    return render(request, 'bookshelf/form_example.html', {'form': form})
