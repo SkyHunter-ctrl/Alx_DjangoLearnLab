@@ -37,3 +37,12 @@ urlpatterns = [
     path('relationship/', include('relationship_app.urls')),
 ]
 
+from django.contrib import admin
+from django.urls import path, include
+from relationship_app.views import list_books  # or any landing view
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', list_books, name='home'),  # This handles the root URL
+    path('relationship/', include('relationship_app.urls')),
+]

@@ -36,3 +36,15 @@ def book_list(request):
     books = Book.objects.all()
     return render(request, 'bookshelf/book_list.html', {'books': books})
 
+# Secure Views Against SQL Injection
+def book_search(request):
+    query = request.GET.get('q', '')
+    books = Book.objects.filter(title__icontains=query)  # ORM protects against injection
+    return render(request, 'bookshelf/book_list.html', {'books': books, 'query': query})
+
+def create_book(request):
+    form = BookForm(request.POST or None)
+    if form.is_valid():  # Validates and sanitizes input
+        form.save()
+    return render(request, 'bookshelf/form_example.html', {'form': form})
+
