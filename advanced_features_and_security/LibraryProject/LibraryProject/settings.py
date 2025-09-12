@@ -143,3 +143,18 @@ SESSION_COOKIE_SECURE = True
 CSP_DEFAULT_SRC = ("'self'",)
 CSP_SCRIPT_SRC = ("'self'", "https://trusted.cdn.com")
 CSP_STYLE_SRC = ("'self'", "https://trusted.cdn.com")
+# ensure browsers only communicate with your site over HTTPS
+# Enforce HTTPS redirection
+SECURE_SSL_REDIRECT = True  # Redirect all HTTP requests to HTTPS
+
+# HTTP Strict Transport Security (HSTS)
+SECURE_HSTS_SECONDS = 31536000  # Enforce HTTPS for 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply to all subdomains
+SECURE_HSTS_PRELOAD = True  # Allow browser preload list inclusion
+#Prevents cookies from being exposed over insecure connections.
+SESSION_COOKIE_SECURE = True  # Session cookies sent only over HTTPS
+CSRF_COOKIE_SECURE = True     # CSRF cookies sent only over HTTPS
+# These headers harden your app against common browser-based attacks.
+X_FRAME_OPTIONS = 'DENY'  # Prevent clickjacking via iframes
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Block MIME-type sniffing
+SECURE_BROWSER_XSS_FILTER = True    # Enable browser XSS protection
