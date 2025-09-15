@@ -7,7 +7,7 @@ urlpatterns = [
 # Set Up a Router
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import BookViewSet
+from .views import BookViewSet, BookList
 
 router = DefaultRouter()
 router.register(r'books_all', BookViewSet, basename='bool_all' )
