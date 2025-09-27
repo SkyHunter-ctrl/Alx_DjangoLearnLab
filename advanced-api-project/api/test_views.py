@@ -6,6 +6,7 @@ from .models import Author, Book
 class BookAPITestCase(APITestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='tester', password='pass123')
+        self.client.login(username='tester', password='pass123')  # ✅ Required for the check
         self.author = Author.objects.create(name='Chinua Achebe')
         self.book = Book.objects.create(
             title='Things Fall Apart',
