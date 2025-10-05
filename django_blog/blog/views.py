@@ -128,9 +128,11 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return self.object.post.get_absolute_url()
+    
 
 from django.db.models import Q
 from .models import Post
+from taggit.models import Tag
 
 def search_posts(request):
     query = request.GET.get('q')
@@ -143,3 +145,16 @@ def search_posts(request):
 def tagged_posts(request, tag_name):
     posts = Post.objects.filter(tags__name__iexact=tag_name)
     return render(request, 'blog/tagged_posts.html', {'posts': posts, 'tag_name': tag_name})
+class PostByTagListView(ListView):
+    model = Post
+    template_name = 'blog/tagged_posts.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        self.tag = Tag.objects.get(slug=self.kwargs['tag_slug'])
+        return Post.objects.filter(tags__in=[self.tag])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tag'] = self.tag
+        return context
