@@ -18,9 +18,10 @@ urlpatterns = [
     path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),  # ✅ Required
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),  # ✅ Required
     path('posts/', PostListView.as_view(), name='post-list'),
-     path('posts/<int:post_id>/comments/new/', add_comment, name='comment-add'),
-    path('comments/<int:pk>/update/', CommentUpdateView.as_view(), name='comment-update'),
-    path('comments/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment-delete'),
+    path('post/<int:pk>/comments/new/', CommentCreateView.as_view(), name='comment-add'),     # ✅ Required
+    path('comment/<int:pk>/update/', CommentUpdateView.as_view(), name='comment-update'),     # ✅ Required
+    path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment-delete'),     # ✅ Required
+
 
 ]
 
