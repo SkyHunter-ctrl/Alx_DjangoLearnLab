@@ -5,7 +5,7 @@ from .views import (
     PostListView, PostDetailView,
     PostCreateView, PostUpdateView, PostDeleteView
 )
-
+from .views import search_posts, tagged_posts
 
 urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='blog/login.html'), name='login'),
@@ -21,6 +21,9 @@ urlpatterns = [
     path('post/<int:pk>/comments/new/', CommentCreateView.as_view(), name='comment-add'),     # ✅ Required
     path('comment/<int:pk>/update/', CommentUpdateView.as_view(), name='comment-update'),     # ✅ Required
     path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment-delete'),     # ✅ Required
+    path('search/', search_posts, name='search-posts'),
+    path('tags/<str:tag_name>/', tagged_posts, name='tagged-posts'),
+    
 
 
 ]

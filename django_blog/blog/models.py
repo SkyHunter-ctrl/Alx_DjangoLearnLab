@@ -19,3 +19,8 @@ class Comment(models.Model):
     def __str__(self):
         return f'Comment by {self.author} on {self.post}'
 
+from taggit.managers import TaggableManager
+
+class Post(models.Model):
+    ...
+    tags = TaggableManager()
