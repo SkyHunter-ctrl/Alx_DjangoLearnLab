@@ -1,4 +1,4 @@
-from rest_framework import viewsets, permissions, status
+from rest_framework import generics, viewsets, permissions, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -37,14 +37,14 @@ class FeedView(APIView):
         posts = Post.objects.filter(author__in=following_users).order_by('-created_at')  # ✅ Filter and order
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
-class LikePostView(APIView):
-    permission_classes = [IsAuthenticated]
+class LikePostView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
-        post = Post.objects.get(pk=pk)
-        if Like.objects.filter(user=request.user, post=post).exists():
+        post = generics.get_object_or_404(Post, pk=pk)
+        like, created = Like.objects.get_or_create(user=request.user, post=post)
+        if not created:
             return Response({'message': 'Already liked'}, status=status.HTTP_400_BAD_REQUEST)
-        Like.objects.create(user=request.user, post=post)
 
         Notification.objects.create(
             recipient=post.author,
@@ -55,15 +55,13 @@ class LikePostView(APIView):
         )
         return Response({'message': 'Post liked'}, status=status.HTTP_200_OK)
 
-class UnlikePostView(APIView):
-    permission_classes = [IsAuthenticated]
+class UnlikePostView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
-        post = Post.objects.get(pk=pk)
+        post = generics.get_object_or_404(Post, pk=pk)
         like = Like.objects.filter(user=request.user, post=post)
         if not like.exists():
             return Response({'message': 'You haven’t liked this post'}, status=status.HTTP_400_BAD_REQUEST)
         like.delete()
         return Response({'message': 'Post unliked'}, status=status.HTTP_200_OK)
-
-
