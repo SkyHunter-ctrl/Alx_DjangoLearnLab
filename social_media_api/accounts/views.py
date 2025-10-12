@@ -1,4 +1,4 @@
-from rest_framework.views import APIView
+from rest_framework.views import generics, APIView, permissions, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .serializers import RegisterSerializer, LoginSerializer
@@ -32,19 +32,20 @@ class ProfileView(APIView):
             'bio': user.bio,
             'followers': user.followers.count()
         })
-class FollowUserView(APIView):
-    permission_classes = [IsAuthenticated]
+class FollowUserView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = CustomUser.objects.all()
 
     def post(self, request, user_id):
-        target_user = get_object_or_404(CustomUser, id=user_id)
+        target_user = get_object_or_404(self.get_queryset(), id=user_id)
         request.user.following.add(target_user)
         return Response({'message': f'You are now following {target_user.username}'}, status=status.HTTP_200_OK)
 
-class UnfollowUserView(APIView):
-    permission_classes = [IsAuthenticated]
+class UnfollowUserView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = CustomUser.objects.all()
 
     def post(self, request, user_id):
-        target_user = get_object_or_404(CustomUser, id=user_id)
+        target_user = get_object_or_404(self.get_queryset(), id=user_id)
         request.user.following.remove(target_user)
         return Response({'message': f'You have unfollowed {target_user.username}'}, status=status.HTTP_200_OK)
-
