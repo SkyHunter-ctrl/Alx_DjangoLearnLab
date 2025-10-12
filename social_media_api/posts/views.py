@@ -1,10 +1,13 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from .models import Post, Comment
+from .models import Post, Comment, Like
 from .serializers import PostSerializer, CommentSerializer
 from rest_framework import filters
+from notifications.models import Notification
+from django.contrib.contenttypes.models import ContentType
+
 class IsOwnerOrReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         return request.method in permissions.SAFE_METHODS or obj.author == request.user
@@ -34,5 +37,33 @@ class FeedView(APIView):
         posts = Post.objects.filter(author__in=following_users).order_by('-created_at')  # ✅ Filter and order
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
+class LikePostView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, pk):
+        post = Post.objects.get(pk=pk)
+        if Like.objects.filter(user=request.user, post=post).exists():
+            return Response({'message': 'Already liked'}, status=status.HTTP_400_BAD_REQUEST)
+        Like.objects.create(user=request.user, post=post)
+
+        Notification.objects.create(
+            recipient=post.author,
+            actor=request.user,
+            verb='liked your post',
+            content_type=ContentType.objects.get_for_model(post),
+            object_id=post.id
+        )
+        return Response({'message': 'Post liked'}, status=status.HTTP_200_OK)
+
+class UnlikePostView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, pk):
+        post = Post.objects.get(pk=pk)
+        like = Like.objects.filter(user=request.user, post=post)
+        if not like.exists():
+            return Response({'message': 'You haven’t liked this post'}, status=status.HTTP_400_BAD_REQUEST)
+        like.delete()
+        return Response({'message': 'Post unliked'}, status=status.HTTP_200_OK)
 
 
